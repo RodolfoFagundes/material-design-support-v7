@@ -44,12 +44,13 @@ public class CarFragment extends Fragment implements RecyclerViewOnClickListener
                 super.onScrolled(recyclerView, dx, dy);
 
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
-                CarAdapter carAdapter = (CarAdapter) mRecyclerView.getAdapter();
-
-                if (mList.size() == linearLayoutManager.findLastCompletelyVisibleItemPosition() + 1) {
-                    List<Car> listAux = ((MainActivity) getActivity()).getSetCarList(10);
-                    for (int i = 0; i < listAux.size(); i++) {
-                        carAdapter.addListItem(listAux.get(i), mList.size());
+                if (linearLayoutManager != null && mList.size() == linearLayoutManager.findLastCompletelyVisibleItemPosition() + 1) {
+                    CarAdapter carCardAdapter = (CarAdapter) mRecyclerView.getAdapter();
+                    if (carCardAdapter != null) {
+                        List<Car> listAux = ((MainActivity) getActivity()).getSetCarList(10);
+                        for (int i = 0; i < listAux.size(); i++) {
+                            carCardAdapter.addListItem(listAux.get(i), mList.size());
+                        }
                     }
                 }
             }

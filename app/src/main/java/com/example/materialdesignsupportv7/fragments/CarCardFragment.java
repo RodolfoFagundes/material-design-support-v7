@@ -44,12 +44,13 @@ public class CarCardFragment extends Fragment implements RecyclerViewOnClickList
                 super.onScrolled(recyclerView, dx, dy);
 
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
-                CarCardAdapter carCardAdapter = (CarCardAdapter) mRecyclerView.getAdapter();
-
-                if (mList.size() == linearLayoutManager.findLastCompletelyVisibleItemPosition() + 1) {
-                    List<Car> listAux = ((MainActivity) getActivity()).getSetCarList(10);
-                    for (int i = 0; i < listAux.size(); i++) {
-                        carCardAdapter.addListItem(listAux.get(i), mList.size());
+                if (linearLayoutManager != null && mList.size() == linearLayoutManager.findLastCompletelyVisibleItemPosition() + 1) {
+                    CarCardAdapter carCardAdapter = (CarCardAdapter) mRecyclerView.getAdapter();
+                    if (carCardAdapter != null) {
+                        List<Car> listAux = ((MainActivity) getActivity()).getSetCarList(10);
+                        for (int i = 0; i < listAux.size(); i++) {
+                            carCardAdapter.addListItem(listAux.get(i), mList.size());
+                        }
                     }
                 }
             }
@@ -63,9 +64,7 @@ public class CarCardFragment extends Fragment implements RecyclerViewOnClickList
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
         mList = ((MainActivity) getActivity()).getSetCarList(10);
-        CarCardAdapter carCardAdapter = new CarCardAdapter(getActivity(), mList);
-        //carCardAdapter.setRecyclerViewOnClickListenerHack(this);
-        mRecyclerView.setAdapter(carCardAdapter);
+        mRecyclerView.setAdapter(new CarCardAdapter(getActivity(), mList));
 
         return view;
     }
@@ -86,14 +85,12 @@ public class CarCardFragment extends Fragment implements RecyclerViewOnClickList
 
     private static class RecycleViewTouchListener implements RecyclerView.OnItemTouchListener {
 
-        private Context context;
         private GestureDetector gestureDetector;
         private RecyclerViewOnClickListenerHack recyclerViewOnClickListenerHack;
 
-        public RecycleViewTouchListener(Context pContext, final RecyclerView pRecyclerView, RecyclerViewOnClickListenerHack pRecyclerViewOnClickListenerHack) {
-            context = pContext;
+        RecycleViewTouchListener(Context pContext, final RecyclerView pRecyclerView, RecyclerViewOnClickListenerHack pRecyclerViewOnClickListenerHack) {
             recyclerViewOnClickListenerHack = pRecyclerViewOnClickListenerHack;
-            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+            gestureDetector = new GestureDetector(pContext, new GestureDetector.SimpleOnGestureListener() {
                 @Override
                 public void onLongPress(MotionEvent e) {
                     super.onLongPress(e);

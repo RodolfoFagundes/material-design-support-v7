@@ -16,13 +16,9 @@ import com.example.materialdesignsupportv7.domain.Car;
 
 import java.util.List;
 
-//import com.example.materialdesignsupportv7.interfaces.RecyclerViewOnClickListenerHack;
-
 public class CarAdapter extends RecyclerView.Adapter<CarAdapter.MyViewHolder> {
-    //private Context mContext;
     private List<Car> mList;
     private LayoutInflater mLayoutInflater;
-    //private RecyclerViewOnClickListenerHack recyclerViewOnClickListenerHack;
 
     public CarAdapter(Context c, List<Car> l) {
         //mContext = c;
@@ -34,8 +30,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.MyViewHolder> {
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View view = mLayoutInflater.inflate(R.layout.item_car, viewGroup, false);
-        MyViewHolder mvh = new MyViewHolder(view);
-        return mvh;
+        return new MyViewHolder(view);
     }
 
     @Override
@@ -64,21 +59,12 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.MyViewHolder> {
         notifyItemInserted(position);
     }
 
-//    public void removeListItem(int position) {
-//        mList.remove(position);
-//        notifyItemRemoved(position);
-//    }
-
-//    public void setRecyclerViewOnClickListenerHack(RecyclerViewOnClickListenerHack r) {
-//        recyclerViewOnClickListenerHack = r;
-//    }
-
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public ImageView ivCar;
-        public TextView tvModel;
-        public TextView tvBrand;
+        private ImageView ivCar;
+        private TextView tvModel;
+        private TextView tvBrand;
 
-        public MyViewHolder(@NonNull View itemView) {
+        private MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             ivCar = itemView.findViewById(R.id.iv_car);
@@ -90,8 +76,6 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.MyViewHolder> {
 
         @Override
         public void onClick(View v) {
-//            if (recyclerViewOnClickListenerHack != null)
-//                recyclerViewOnClickListenerHack.onClickListener(v, getAdapterPosition());
         }
     }
 }

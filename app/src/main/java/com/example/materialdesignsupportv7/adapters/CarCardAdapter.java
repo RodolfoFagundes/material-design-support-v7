@@ -1,6 +1,9 @@
 package com.example.materialdesignsupportv7.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,48 +12,48 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.example.materialdesignsupportv7.R;
 import com.example.materialdesignsupportv7.domain.Car;
+import com.example.materialdesignsupportv7.utils.ImageHelper;
 
 import java.util.List;
 
-//import com.example.materialdesignsupportv7.interfaces.RecyclerViewOnClickListenerHack;
-
 public class CarCardAdapter extends RecyclerView.Adapter<CarCardAdapter.MyViewHolder> {
-    //private Context mContext;
+    private Context mContext;
     private List<Car> mList;
     private LayoutInflater mLayoutInflater;
-    //private RecyclerViewOnClickListenerHack recyclerViewOnClickListenerHack;
+    private int width;
+    private int height;
 
     public CarCardAdapter(Context c, List<Car> l) {
-        //mContext = c;
+        mContext = c;
         mList = l;
         mLayoutInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        float scale = mContext.getResources().getDisplayMetrics().density;
+        width = mContext.getResources().getDisplayMetrics().widthPixels - (int) (14 * scale + 0.5f);
+        height = (width / 16) * 9;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View view = mLayoutInflater.inflate(R.layout.item_car_card, viewGroup, false);
-        MyViewHolder mvh = new MyViewHolder(view);
-        return mvh;
+        return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int position) {
-        myViewHolder.ivCar.setImageResource(mList.get(position).getPhoto());
+
         myViewHolder.tvModel.setText(mList.get(position).getModel());
         myViewHolder.tvBrand.setText(mList.get(position).getBrand());
 
-        try {
-            YoYo.with(Techniques.Tada)
-                    .duration(300)
-                    .repeat(2)
-                    .playOn(myViewHolder.itemView);
-        } catch (Exception e) {
-            //Não faz nada
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            myViewHolder.ivCar.setImageResource(mList.get(position).getPhoto());
+        } else {
+            Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(), mList.get(position).getPhoto());
+            bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
+            bitmap = ImageHelper.getRoundedCornerBitmap(mContext, bitmap, 10, width, height, false, false, true, true);
+            myViewHolder.ivCar.setImageBitmap(bitmap);
         }
     }
 
@@ -64,21 +67,12 @@ public class CarCardAdapter extends RecyclerView.Adapter<CarCardAdapter.MyViewHo
         notifyItemInserted(position);
     }
 
-//    public void removeListItem(int position) {
-//        mList.remove(position);
-//        notifyItemRemoved(position);
-//    }
-
-//    public void setRecyclerViewOnClickListenerHack(RecyclerViewOnClickListenerHack r) {
-//        recyclerViewOnClickListenerHack = r;
-//    }
-
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public ImageView ivCar;
-        public TextView tvModel;
-        public TextView tvBrand;
+        private ImageView ivCar;
+        private TextView tvModel;
+        private TextView tvBrand;
 
-        public MyViewHolder(@NonNull View itemView) {
+        private MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             ivCar = itemView.findViewById(R.id.iv_car);
@@ -90,8 +84,6 @@ public class CarCardAdapter extends RecyclerView.Adapter<CarCardAdapter.MyViewHo
 
         @Override
         public void onClick(View v) {
-//            if (recyclerViewOnClickListenerHack != null)
-//                recyclerViewOnClickListenerHack.onClickListener(v, getAdapterPosition());
         }
     }
 }

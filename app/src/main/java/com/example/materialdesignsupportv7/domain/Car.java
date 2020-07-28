@@ -15,9 +15,6 @@ public class Car implements Parcelable {
     private int photo;
     private String urlPhoto;
 
-    public Car() {
-    }
-
     public Car(String m, String b, int p, String up) {
         model = m;
         brand = b;

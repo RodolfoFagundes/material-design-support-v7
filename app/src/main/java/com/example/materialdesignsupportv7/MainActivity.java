@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +77,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //TAB com os fragments
-        tabLayout = findViewById(R.id.tab_layout);
-        viewPager = findViewById(R.id.view_pager);
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager(), getResources().getStringArray(R.array.title_tab)));
         tabLayout.setupWithViewPager(viewPager);
 
