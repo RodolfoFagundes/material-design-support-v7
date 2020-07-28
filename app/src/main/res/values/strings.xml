@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">MaterialDesignSupportV7</string>
+    <string name="action_settings">Settings</string>
+    <string name="text_fragment_a">Fragment A</string>
+    <string name="text_fragment_b">Fragment B</string>
+    <string name="text_fragment_car">Fragment CAR</string>
+    <string-array name="title_tab">
+        <item>TAB A</item>
+        <item>TAB B</item>
+        <item>CAR FRAGMENT</item>
+        <item>CAR CARD FRAGMENT</item>
+    </string-array>
+
+    <string name="action_facebook">Facebook</string>
+    <string name="action_youtube">YouTube</string>
+    <string name="action_google_plus">Google Plus</string>
+    <string name="action_linkedin">LinkedIn</string>
+    <string name="action_whatsapp">WhatsApp</string>
+    <string name="title_activity_second">SecondActivity</string>
+    <string name="action_second_activity">SecondActivity</string>
+
+</resources>
